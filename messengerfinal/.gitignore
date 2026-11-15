@@ -3,3 +3,4 @@
 /*.log
 /credentials.json
 /users.json
+/.postgres-init*

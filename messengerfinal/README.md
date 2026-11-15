@@ -2,25 +2,19 @@
 
 Локальный мессенджер для Windows. Go-сервер отдаёт веб-интерфейс и хранит аккаунты и сообщения в PostgreSQL.
 
-## Запуск из готовой локальной папки
+## Запуск на Windows
 
-Откройте `Start-Messenger.cmd` двойным щелчком, затем перейдите на [http://localhost:9090](http://localhost:9090). Команда запуска использует соседние `.env`, `data`, `pgsql` и `www`.
+Распакуйте весь проект. В папке `messengerfinal` откройте `Start-Messenger.cmd` двойным щелчком. При первом запуске PostgreSQL создаст пустую базу `messenger` и локальный файл `.env`. Это может занять около двух минут. Когда сервер запустится, откройте [http://localhost:9090](http://localhost:9090) и зарегистрируйте аккаунт.
 
-Чтобы запустить только мессенджер при уже работающей базе, откройте `Start-Messenger.exe`. Оставьте его окно открытым во время работы.
+Для раздельного запуска откройте `Start-PostgreSQL.exe`, затем `Start-Messenger.exe`. Оставьте окно мессенджера открытым во время работы. Чтобы остановить PostgreSQL, используйте `Stop-PostgreSQL.exe`.
 
-Чтобы запустить только PostgreSQL, откройте `Start-PostgreSQL.exe`. Чтобы остановить его, откройте `cmd` в этой папке и выполните:
+При повторном запуске PostgreSQL использует существующую базу. Каталог `data`, настройки `.env` и журналы создаются локально и исключены из Git.
 
-```cmd
-pgsql\bin\pg_ctl.exe -D data -m fast -w stop
-```
+## Сборка из исходников
 
-## Исходники и публикация
-
-Сборка приложения из исходников с Go в PATH:
+Из папки `messengerfinal` выполните в `cmd` с Go в PATH:
 
 ```cmd
 go build -o messenger-postgres.exe ./cmd
+go build -o Start-PostgreSQL.exe -ldflags "-H=windowsgui" ./tools/postgres-launcher
 ```
-
-`data` и `.env` содержат локальные данные и пароль. Они исключены из Git. Для запуска скачанной копии подготовьте отдельную базу PostgreSQL и собственные параметры подключения `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`, `PGSSLMODE`. Для запуска через `Start-Messenger.cmd` разместите инициализированный каталог данных `data` и файл подключения `.env` рядом с ним.
-
