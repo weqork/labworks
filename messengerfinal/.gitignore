@@ -1,0 +1,5 @@
+/data/
+/.env
+/*.log
+/credentials.json
+/users.json
